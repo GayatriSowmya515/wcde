@@ -14,6 +14,13 @@ shinyServer(function(input, output, session) {
   for (file in list.files("server")) {
     source(file.path("server", file), local = TRUE)
   }
+  # Automatically bookmark every time an input changes
+  observe({
+    reactiveValuesToList(input)
+    session$doBookmark()
+  })
+  # Update the query string
+  onBookmarked(updateQueryString)
 })
 
 
