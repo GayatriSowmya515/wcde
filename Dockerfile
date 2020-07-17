@@ -1,24 +1,34 @@
 # start from base
-FROM r-base
+FROM rocker/shiny-verse
 
 
-# install system-wide deps for python and node
+# install system-wide 
 
 # copy our application code
-ADD wcde /opt/wcde
-WORKDIR /opt/wcde
+COPY .  /opt/wcde
+WORKDIR  /opt/wcde
 
-# fetch app specific deps
-RUN packages.install("shiny")
-RUN packages.install("desc")
-RUN packages.install("ellipsis")
-RUN packages.install("googleVis")
+# system libraries of general use
+RUN apt-get update && apt-get install -y \
+    sudo \
+    pandoc \
+    pandoc-citeproc \
+    libcurl4-gnutls-dev \
+    libcairo2-dev \
+    libxt-dev \
+    libssl-dev \
+    libssh2-1-dev 
 
 
+RUN R -e "install.packages(c('markdown','reshape2','tidyverse','saves','shiny','googleVis','webshot'), repos='http://cran.rstudio.com/')"
 
 
 # expose port
-EXPOSE 3000
+EXPOSE 3900
+
+
 
 # start app
-CMD [ "runApp(run.R)" ]
+
+CMD ["/usr/bin/shiny-server.sh"]
+#CMD Rscript /opt/wcde/run.R
