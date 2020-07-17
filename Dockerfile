@@ -30,5 +30,4 @@ EXPOSE 3900
 
 # start app
 
-CMD ["/usr/bin/shiny-server.sh"]
-#CMD Rscript /opt/wcde/run.R
+CMD Rscript /opt/wcde/run.R
