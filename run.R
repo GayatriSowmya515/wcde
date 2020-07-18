@@ -1,6 +1,6 @@
 library(shiny)
 enableBookmarking("url")
-runApp(launch.browser = TRUE)
+runApp(port=3838,host = '0.0.0.0')
 
 
 
