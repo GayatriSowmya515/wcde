@@ -2,11 +2,7 @@
 FROM rocker/shiny-verse
 
 
-# install system-wide 
 
-# copy our application code
-COPY .  /opt/wcde
-WORKDIR  /opt/wcde
 
 # system libraries of general use
 RUN apt-get update && apt-get install -y \
@@ -19,15 +15,17 @@ RUN apt-get update && apt-get install -y \
     libssl-dev \
     libssh2-1-dev 
 
-
+#install required packages
 RUN R -e "install.packages(c('markdown','reshape2','tidyverse','saves','shiny','googleVis','webshot'), repos='http://cran.rstudio.com/')"
 
 
-# expose port
-EXPOSE 3900
 
 
 
-# start app
+# copy our application code
+COPY .  /opt/wcde
+WORKDIR  /opt/wcde
 
+
+#command to run the script
 CMD Rscript /opt/wcde/run.R
